@@ -19,9 +19,10 @@ import { Provider } from 'react-redux'
 import Home from './components/Example';
 import About from './components/About';
 import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';
+import Store  from './redux/store';
 
 const App = () => (
-    <>
+    <Provider store={ Store }>
         <Router>
             <ul>
                 <li>
@@ -36,7 +37,7 @@ const App = () => (
                 <Route path="/about" component={About} exact />
             </Switch>
         </Router>
-    </>
+    </Provider>
 );
 
 ReactDOM.render(<App />, document.getElementById('app'));

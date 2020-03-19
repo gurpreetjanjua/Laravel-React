@@ -1,14 +1,17 @@
 import React from 'react';
+import { connect } from 'react-redux';
 
-function About() {
+
+const About = (props) => {
     return (
         <div className="container">
             <div className="row justify-content-center">
                 <div className="col-md-8">
                     <div className="card">
                         <div className="card-header">About Component</div>
-
-                        <div className="card-body">I'm an example component!</div>
+                        <div className="card-body">
+                            Last Counter: { props.counter }
+                        </div>
                     </div>
                 </div>
             </div>
@@ -16,5 +19,9 @@ function About() {
     );
 }
 
-export default About;
+const mapStateToProps = state => ({
+    counter: state.counter.counter
+});
+
+export default connect(mapStateToProps, null)(About);
 

@@ -69743,6 +69743,70 @@ if (false) {} else {
 
 /***/ }),
 
+/***/ "./node_modules/redux-devtools-extension/index.js":
+/*!********************************************************!*\
+  !*** ./node_modules/redux-devtools-extension/index.js ***!
+  \********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var compose = __webpack_require__(/*! redux */ "./node_modules/redux/es/redux.js").compose;
+
+exports.__esModule = true;
+exports.composeWithDevTools = (
+  typeof window !== 'undefined' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ ?
+    window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ :
+    function() {
+      if (arguments.length === 0) return undefined;
+      if (typeof arguments[0] === 'object') return compose;
+      return compose.apply(null, arguments);
+    }
+);
+
+exports.devToolsEnhancer = (
+  typeof window !== 'undefined' && window.__REDUX_DEVTOOLS_EXTENSION__ ?
+    window.__REDUX_DEVTOOLS_EXTENSION__ :
+    function() { return function(noop) { return noop; } }
+);
+
+
+/***/ }),
+
+/***/ "./node_modules/redux-thunk/es/index.js":
+/*!**********************************************!*\
+  !*** ./node_modules/redux-thunk/es/index.js ***!
+  \**********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+function createThunkMiddleware(extraArgument) {
+  return function (_ref) {
+    var dispatch = _ref.dispatch,
+        getState = _ref.getState;
+    return function (next) {
+      return function (action) {
+        if (typeof action === 'function') {
+          return action(dispatch, getState, extraArgument);
+        }
+
+        return next(action);
+      };
+    };
+  };
+}
+
+var thunk = createThunkMiddleware();
+thunk.withExtraArgument = createThunkMiddleware;
+
+/* harmony default export */ __webpack_exports__["default"] = (thunk);
+
+/***/ }),
+
 /***/ "./node_modules/redux/es/redux.js":
 /*!****************************************!*\
   !*** ./node_modules/redux/es/redux.js ***!
@@ -72066,6 +72130,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_Example__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./components/Example */ "./resources/js/components/Example.js");
 /* harmony import */ var _components_About__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./components/About */ "./resources/js/components/About.js");
 /* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
+/* harmony import */ var _redux_store__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./redux/store */ "./resources/js/redux/store.js");
 /**
  * First we will load all of this project's JavaScript dependencies which
  * includes React and other helpers. It's a great starting point while
@@ -72087,8 +72152,11 @@ __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
 
 
+
 var App = function App() {
-  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_5__["BrowserRouter"], null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_5__["Link"], {
+  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_redux__WEBPACK_IMPORTED_MODULE_2__["Provider"], {
+    store: _redux_store__WEBPACK_IMPORTED_MODULE_6__["default"]
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_5__["BrowserRouter"], null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_5__["Link"], {
     to: "/"
   }, "Home")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_5__["Link"], {
     to: "/about"
@@ -72163,9 +72231,11 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 
 
-function About() {
+
+var About = function About(props) {
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "container"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -72178,10 +72248,16 @@ function About() {
     className: "card-header"
   }, "About Component"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "card-body"
-  }, "I'm an example component!")))));
-}
+  }, "Last Counter: ", props.counter)))));
+};
 
-/* harmony default export */ __webpack_exports__["default"] = (About);
+var mapStateToProps = function mapStateToProps(state) {
+  return {
+    counter: state.counter.counter
+  };
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_1__["connect"])(mapStateToProps, null)(About));
 
 /***/ }),
 
@@ -72196,25 +72272,195 @@ function About() {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+/* harmony import */ var _redux_actions_counterAction__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../redux/actions/counterAction */ "./resources/js/redux/actions/counterAction.js");
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
 
-function Home() {
-  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "container"
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "row justify-content-center"
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "col-md-8"
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "card"
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "card-header"
-  }, "Home Component"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "card-body"
-  }, "I'm an Home component!")))));
-}
 
-/* harmony default export */ __webpack_exports__["default"] = (Home);
+
+
+var Home = /*#__PURE__*/function (_React$Component) {
+  _inherits(Home, _React$Component);
+
+  function Home(props) {
+    _classCallCheck(this, Home);
+
+    return _possibleConstructorReturn(this, _getPrototypeOf(Home).call(this, props));
+  }
+
+  _createClass(Home, [{
+    key: "render",
+    value: function render() {
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "container"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "row justify-content-center"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "col-md-8"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "card"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "card-header"
+      }, "Home Component"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "card-body"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "Counter: ", this.props.counter), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        onClick: this.props.incrementCounter
+      }, "Increment"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        onClick: this.props.decrementCounter
+      }, "Decrement"))))));
+    }
+  }]);
+
+  return Home;
+}(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
+
+var mapStateToProps = function mapStateToProps(state) {
+  return {
+    counter: state.counter.counter
+  };
+};
+
+var mapDispatchToProps = {
+  incrementCounter: _redux_actions_counterAction__WEBPACK_IMPORTED_MODULE_2__["incrementCounter"],
+  decrementCounter: _redux_actions_counterAction__WEBPACK_IMPORTED_MODULE_2__["decrementCounter"]
+};
+/* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_1__["connect"])(mapStateToProps, mapDispatchToProps)(Home));
+
+/***/ }),
+
+/***/ "./resources/js/redux/actions/counterAction.js":
+/*!*****************************************************!*\
+  !*** ./resources/js/redux/actions/counterAction.js ***!
+  \*****************************************************/
+/*! exports provided: INCREMENT_COUNTER, DECREMENT_COUNTER, incrementCounter, decrementCounter */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "INCREMENT_COUNTER", function() { return INCREMENT_COUNTER; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DECREMENT_COUNTER", function() { return DECREMENT_COUNTER; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "incrementCounter", function() { return incrementCounter; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "decrementCounter", function() { return decrementCounter; });
+//Action Types
+var INCREMENT_COUNTER = "INCREMENT_COUNTER";
+var DECREMENT_COUNTER = "DECREMENT_COUNTER"; //Action Creator
+
+var incrementCounter = function incrementCounter() {
+  return {
+    type: INCREMENT_COUNTER
+  };
+};
+var decrementCounter = function decrementCounter() {
+  return {
+    type: DECREMENT_COUNTER
+  };
+};
+
+/***/ }),
+
+/***/ "./resources/js/redux/reducers/counterReducer.js":
+/*!*******************************************************!*\
+  !*** ./resources/js/redux/reducers/counterReducer.js ***!
+  \*******************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _actions_counterAction__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../actions/counterAction */ "./resources/js/redux/actions/counterAction.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+var initialState = {
+  counter: 0
+};
+
+var counterReducer = function counterReducer() {
+  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialState;
+  var action = arguments.length > 1 ? arguments[1] : undefined;
+
+  switch (action.type) {
+    case _actions_counterAction__WEBPACK_IMPORTED_MODULE_0__["INCREMENT_COUNTER"]:
+      return _objectSpread({}, state, {
+        counter: state.counter + 1
+      });
+
+    case _actions_counterAction__WEBPACK_IMPORTED_MODULE_0__["DECREMENT_COUNTER"]:
+      return _objectSpread({}, state, {
+        counter: state.counter - 1
+      });
+
+    default:
+      return state;
+  }
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (counterReducer);
+
+/***/ }),
+
+/***/ "./resources/js/redux/reducers/rootReducer.js":
+/*!****************************************************!*\
+  !*** ./resources/js/redux/reducers/rootReducer.js ***!
+  \****************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _counterReducer__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./counterReducer */ "./resources/js/redux/reducers/counterReducer.js");
+/* harmony import */ var redux__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! redux */ "./node_modules/redux/es/redux.js");
+
+
+var rootReducer = Object(redux__WEBPACK_IMPORTED_MODULE_1__["combineReducers"])({
+  counter: _counterReducer__WEBPACK_IMPORTED_MODULE_0__["default"]
+});
+/* harmony default export */ __webpack_exports__["default"] = (rootReducer);
+
+/***/ }),
+
+/***/ "./resources/js/redux/store.js":
+/*!*************************************!*\
+  !*** ./resources/js/redux/store.js ***!
+  \*************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! redux */ "./node_modules/redux/es/redux.js");
+/* harmony import */ var redux_devtools_extension__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! redux-devtools-extension */ "./node_modules/redux-devtools-extension/index.js");
+/* harmony import */ var redux_devtools_extension__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(redux_devtools_extension__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var redux_thunk__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! redux-thunk */ "./node_modules/redux-thunk/es/index.js");
+/* harmony import */ var _reducers_rootReducer__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./reducers/rootReducer */ "./resources/js/redux/reducers/rootReducer.js");
+
+
+
+
+var initialState = {};
+var Store = Object(redux__WEBPACK_IMPORTED_MODULE_0__["createStore"])(_reducers_rootReducer__WEBPACK_IMPORTED_MODULE_3__["default"], initialState, Object(redux_devtools_extension__WEBPACK_IMPORTED_MODULE_1__["composeWithDevTools"])(Object(redux__WEBPACK_IMPORTED_MODULE_0__["applyMiddleware"])(redux_thunk__WEBPACK_IMPORTED_MODULE_2__["default"])));
+/* harmony default export */ __webpack_exports__["default"] = (Store);
 
 /***/ }),
 
