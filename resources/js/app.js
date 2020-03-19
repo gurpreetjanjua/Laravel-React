@@ -23,10 +23,6 @@ import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';
 const App = () => (
     <>
         <Router>
-            <Switch>
-                <Route path="/" component={Home} exact />
-                <Route path="/about" component={About} exact />
-            </Switch>
             <ul>
                 <li>
                     <Link to="/">Home</Link>
@@ -35,6 +31,10 @@ const App = () => (
                     <Link to="/about">About</Link>
                 </li>
             </ul>
+            <Switch>
+                <Route path="/" component={Home} exact />
+                <Route path="/about" component={About} exact />
+            </Switch>
         </Router>
     </>
 );
